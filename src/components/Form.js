@@ -5,11 +5,24 @@ import Interests from './Interests.js'
 
 const config = [{
     name:"settings",
-    component:Settings
+    component:Settings,
 },
 {
     name:"profile",
-    component:Profile
+    component:Profile,
+    validate:(data)=>{
+        let err = {};
+        if(!data.name && data.name.length<2){
+            err.name  = "name should be valid"
+        }
+        if(data.email.length<5 && !data.email.includes('@')){
+            err.email  =  "email should be valid"
+        }
+        if(!data.age){
+            err.age  = "age should be valid"
+        }
+        return err
+    }
 },
 {
     name:"Interests",
@@ -49,7 +62,7 @@ function Form() {
 
 
 {
-    <ActiveForm setData={setData} data={data}/>
+    <ActiveForm setData={setData} data={data} err={config[currentForm].validate}/>
 }
 </div>
 <button onClick={submit} className='center'>
